@@ -11,41 +11,41 @@ import (
 )
 
 func handleMin(cConstraint Constraint, cName string, queryValues *url.Values) {
-  if cConstraint.Min != nil {
-    f, err := strconv.ParseFloat(queryValues.Get(cName), 32)
-    if err == nil && f < *cConstraint.Min {
-      (*queryValues).Set(cName, strconv.FormatFloat(*cConstraint.Min, 'G', -1, 32))
-    }
-  }
+	if cConstraint.Min != nil {
+		f, err := strconv.ParseFloat(queryValues.Get(cName), 32)
+		if err == nil && f < *cConstraint.Min {
+			(*queryValues).Set(cName, strconv.FormatFloat(*cConstraint.Min, 'G', -1, 32))
+		}
+	}
 }
 
 func handleMax(cConstraint Constraint, cName string, queryValues *url.Values) {
-  if cConstraint.Max != nil {
-    f, err := strconv.ParseFloat(queryValues.Get(cName), 32)
-    if err == nil && f > *cConstraint.Max {
-      (*queryValues).Set(cName, strconv.FormatFloat(*cConstraint.Max, 'G', -1, 32))
-    }
-  }
+	if cConstraint.Max != nil {
+		f, err := strconv.ParseFloat(queryValues.Get(cName), 32)
+		if err == nil && f > *cConstraint.Max {
+			(*queryValues).Set(cName, strconv.FormatFloat(*cConstraint.Max, 'G', -1, 32))
+		}
+	}
 }
 
 func handleRound(cConstraint Constraint, cName string, queryValues *url.Values) {
-  if cConstraint.Round != nil {
-    f, err := strconv.ParseFloat(queryValues.Get(cName), 32)
-    if err == nil {
-      (*queryValues).Set(cName, fmt.Sprintf("%." + strconv.Itoa(*cConstraint.Round) + "f", f))
-    }
-  }
+	if cConstraint.Round != nil {
+		f, err := strconv.ParseFloat(queryValues.Get(cName), 32)
+		if err == nil {
+			(*queryValues).Set(cName, fmt.Sprintf("%."+strconv.Itoa(*cConstraint.Round)+"f", f))
+		}
+	}
 }
 
 func applyConstraints(u url.URL, conf map[string]Constraint) string {
 	var newValues url.Values = u.Query()
 	for cName, cConstraint := range conf {
-    if _, ok := u.Query()[cName]; ok == true {
-      handleMax(cConstraint, cName, &newValues)
-      handleMin(cConstraint, cName, &newValues)
-      handleRound(cConstraint, cName, &newValues)
-    }
-  }
+		if _, ok := u.Query()[cName]; ok == true {
+			handleMax(cConstraint, cName, &newValues)
+			handleMin(cConstraint, cName, &newValues)
+			handleRound(cConstraint, cName, &newValues)
+		}
+	}
 	return newValues.Encode()
 }
 
@@ -61,10 +61,10 @@ func singleJoiningSlash(a, b string) string {
 	return a + b
 }
 
-// NewRoundReverseProxy is an ugly copy of httputil's NewSingleHostReverseProxy
+// UglyReverseProxy is an ugly copy of httputil's NewSingleHostReverseProxy
 // that adds the functionality of filtering and editing http request parameters
 // by using user defined constraints.
-func NewRoundReverseProxy(target *url.URL, constraints map[string]Constraint) *httputil.ReverseProxy {
+func UglyReverseProxy(target *url.URL, constraints map[string]Constraint) *httputil.ReverseProxy {
 	targetQuery := target.RawQuery
 	director := func(req *http.Request) {
 		req.URL.Scheme = target.Scheme
@@ -91,7 +91,7 @@ func main() {
 		log.Panic("invalid proxy url")
 	}
 	log.Println("Serving", rpURL, "at port", ourPort)
-	reverseProxy := NewRoundReverseProxy(rpURL, Config.Constraints)
+	reverseProxy := UglyReverseProxy(rpURL, Config.Constraints)
 	if err := http.ListenAndServe(ourPort, reverseProxy); err != nil {
 		log.Fatal(err)
 	}
