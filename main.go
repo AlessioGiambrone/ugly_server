@@ -14,7 +14,7 @@ func handleMin(cConstraint Constraint, cName string, queryValues *url.Values) {
 	if cConstraint.Min != nil {
 		f, err := strconv.ParseFloat(queryValues.Get(cName), 32)
 		if err == nil && f < *cConstraint.Min {
-			(*queryValues).Set(cName, strconv.FormatFloat(*cConstraint.Min, 'G', -1, 32))
+			queryValues.Set(cName, strconv.FormatFloat(*cConstraint.Min, 'G', -1, 32))
 		}
 	}
 }
@@ -23,7 +23,7 @@ func handleMax(cConstraint Constraint, cName string, queryValues *url.Values) {
 	if cConstraint.Max != nil {
 		f, err := strconv.ParseFloat(queryValues.Get(cName), 32)
 		if err == nil && f > *cConstraint.Max {
-			(*queryValues).Set(cName, strconv.FormatFloat(*cConstraint.Max, 'G', -1, 32))
+			queryValues.Set(cName, strconv.FormatFloat(*cConstraint.Max, 'G', -1, 32))
 		}
 	}
 }
@@ -32,7 +32,7 @@ func handleRound(cConstraint Constraint, cName string, queryValues *url.Values) 
 	if cConstraint.Round != nil {
 		f, err := strconv.ParseFloat(queryValues.Get(cName), 32)
 		if err == nil {
-			(*queryValues).Set(cName, fmt.Sprintf("%."+strconv.Itoa(*cConstraint.Round)+"f", f))
+			queryValues.Set(cName, fmt.Sprintf("%."+strconv.Itoa(*cConstraint.Round)+"f", f))
 		}
 	}
 }
