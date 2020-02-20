@@ -7,8 +7,8 @@ import (
 )
 
 func parseValue(q url.Values, key string) float64 {
- v, _ :=strconv.ParseFloat(q[key][0], 32)
- return v
+	v, _ := strconv.ParseFloat(q[key][0], 32)
+	return v
 }
 
 func TestUrlRound(t *testing.T) {
@@ -40,14 +40,14 @@ func TestUrlRound(t *testing.T) {
 
 func TestUrlMin(t *testing.T) {
 	u, _ := url.Parse("http://go.on.bike/?lat=-57.999")
-  var round = 2
+	var round = 2
 	var min float64 = -3
 	conf := map[string]Constraint{
-		"lat":   {&round, nil, &min},
+		"lat": {&round, nil, &min},
 	}
 	newQuery, _ := url.ParseQuery(applyConstraints(*u, conf))
 
-	if v := parseValue(newQuery, "lat") ; v < min {
+	if v := parseValue(newQuery, "lat"); v < min {
 		t.Errorf("min value not respected %v", v)
 	}
 
