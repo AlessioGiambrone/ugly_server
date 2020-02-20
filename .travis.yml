@@ -16,3 +16,9 @@ jobs:
       install: skip
       script:
         - 'if [[ "$(gofmt -l ./ | tee /tmp/gofmt_result | wc -l)" -gt 0 ]]; then { echo "Run gofmt on these files:" | cat - /tmp/gofmt_result; return 1; }; fi'
+    - name: "builds a container"
+      install: skip
+      services:
+        - docker
+      script:
+        - "docker build ."
