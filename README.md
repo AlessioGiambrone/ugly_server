@@ -1,5 +1,7 @@
 # Ugly server
 
+[![Build Status](https://travis-ci.com/AlessioGiambrone/ugly_server.svg?branch=master)](https://travis-ci.com/AlessioGiambrone/ugly_server)
+
 `ugly_server` is a reverse proxy that permits some basic manipulation of
 request parameters.
 
