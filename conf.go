@@ -7,8 +7,8 @@ import (
 )
 
 type Constraint struct {
-	Round    *int     `json:"omitempty"`
-	Max, Min *float64 `json:"omitempty"`
+	Round    *int     `json:",omitempty"`
+	Max, Min *float64 `json:",omitempty"`
 }
 
 var Config = struct {
