@@ -1,0 +1,18 @@
+language: go
+
+env:
+  global:
+    - GO111MODULE=on
+
+jobs:
+  include:
+    - name: "compiles"
+      script:
+        - "go build ."
+    - name: "unit tests"
+      script:
+        - "go test -v ./..."
+    - name: "gofmt"
+      install: skip
+      script:
+        - 'if [[ "$(gofmt -l ./ | tee /tmp/gofmt_result | wc -l)" -gt 0 ]]; then { echo "Run gofmt on these files:" | cat - /tmp/gofmt_result; return 1; }; fi'
