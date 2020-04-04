@@ -26,7 +26,7 @@ Example:
 
 ```yaml
 port: 7072                       # the listening port for ugly_server
-proxiedService: "localhost:5000" # the remote server we're proxying
+proxiedservice: "localhost:5000" # the remote server we're proxying
 constraints:                     # a list of parameters that we want to manipulate
   "lat":                         # for example, we put some constraint to "lat"
     round: 5                     # round at the 5th decimal
